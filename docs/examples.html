@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Charts!</title>
+  <style type="text/css" media="screen">
+    th { font-size: 18px; text-align: left; border-top: 1px #ccc solid; padding-top: 4px; }
+    table { margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+  <h2>Chart tag examples</h2>
+  <table>
+    <tbody>
+      
+        <tr>
+          <th colspan="2">3D pie chart, simple data, labels</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data1 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;pie&quot; %}
+  {% chart-labels &quot;One&quot; &quot;Two&quot; &quot;Three&quot; %}
+  {% chart-alt &quot;It worked!&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chl=One|Two|Three&amp;chd=e:VVqq.." width="300" height="200" alt="It worked!" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Line chart, legend, fill, colors, saving as a variable</th>
+        <tr>
+          <td><pre>{% chart as c %}
+  {% chart-data data2 %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-colors &quot;CC0000&quot; %}
+  {% chart-fill &quot;EEEEEE&quot; %}
+  {% chart-legend &quot;Sweet&quot; %}
+{% endchart %}
+&lt;img src=&quot;{{ c.url }}&quot; width=&quot;300&quot; height=&quot;200&quot; /&gt;</pre></td>
+          <td>
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000&amp;chf=c,s,EEEEEE&amp;chdl=Sweet&amp;chd=e:ALAtBmC1EcGYIsLWOXRuVdZhd9ivn4tYzO5b.." width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Titles, multiple colors, background</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-title &quot;Hello, World!&quot; %}
+  {% chart-data data2 data3 %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-colors &quot;CC0000&quot; &quot;00CC00&quot; %}
+  {% chart-background &quot;EEEEEE&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chtt=Hello,+World%21&amp;cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chf=bg,s,EEEEEE&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Venn charts, background gradients</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data venn %}
+  {% chart-type &quot;venn&quot; %}
+  {% chart-size &quot;300&quot; &quot;200&quot; %}
+  {% chart-background-gradient &quot;45&quot; &quot;000000&quot; &quot;0&quot; &quot;FFFFFF&quot; &quot;0.6&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=v&amp;chs=300x200&amp;chf=bg,lg,45,000000,0,FFFFFF,0.6&amp;chd=e:..zMmZTNTNTNGa" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Pie charts, stripes</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data1 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;pie&quot; %}
+  {% chart-background-stripes &quot;45&quot; &quot;cccccc&quot; &quot;0.05&quot; &quot;FFFFFF&quot; &quot;0.05&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chf=bg,ls,45,cccccc,0.05,FFFFFF,0.05&amp;chd=e:VVqq.." width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Bar chart, chart-bar-width</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data1 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;bar&quot; %}
+  {% chart-bar-width 60 0 6 %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=bhg&amp;chbh=60,0,6&amp;chd=e:VVqq.." width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Extension, column charts (grouped &amp; stacked), filters in data expressions</th>
+        <tr>
+          <td><pre>{% chart as columns %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;column-grouped&quot; %}
+  {% chart-data data2|slice:&quot;6:10&quot; %}
+  {% chart-data data3|slice:&quot;6:10&quot; %}
+  {% chart-colors &quot;CC0000&quot; &quot;0000CC&quot; %}
+  {% chart-bar-width 30 5 10 %}
+{% endchart %}
+{{ columns.img }}
+
+{% chart extends columns %}
+  {% chart-type &quot;column-stacked&quot; %}
+  {% chart-bar-width 70 6 0 %}
+{% endchart %}</pre></td>
+          <td>
+<img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=bvg&amp;chco=CC0000,0000CC&amp;chbh=30,5,10&amp;chd=e:LwQAU5ac,..3LvBng" width="300" height="200" />
+
+<img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=bvs&amp;chco=CC0000,0000CC&amp;chbh=70,6,0&amp;chd=e:LwQAU5ac,..3LvBng" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Scatter chart</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data2 %}
+  {% chart-data data3 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;scatter&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=s&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Chart-line-style, chart-grid</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data2 data3 %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-colors &quot;CC0000&quot; &quot;00CC00&quot; %}
+  {% chart-line-style 3 6 3 %}
+  {% chart-line-style 1 1 2 %}
+  {% chart-grid 15 15 1 1 %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chls=3,6,3|1,1,2&amp;chg=15,15,1,1&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Extension, ranger markers, fill-area</th>
+        <tr>
+          <td><pre>{% chart as line %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-range-marker &quot;v&quot; &quot;E5ECF9&quot; &quot;.75&quot; &quot;.25&quot; %}
+  {% chart-fill-area &quot;76A4FB&quot; %}
+{% endchart %}
+
+{% chart extends line %}
+  {% chart-data data2 %}
+{% endchart %}</pre></td>
+          <td>
+
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chm=R,E5ECF9,0,.75,.25|B,76A4FB,0,0,0&amp;chd=e:ALAtBmC1EcGYIsLWOXRuVdZhd9ivn4tYzO5b.." width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">More markers</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data2 data3 %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-colors &quot;CC0000&quot; &quot;00CC00&quot; %}
+  {% chart-marker &quot;circle&quot; &quot;cccc0077&quot; 1 4 90 %}
+  {% chart-marker &quot;x&quot; &quot;0000CC&quot; 0 9.3 20 %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chm=o,cccc0077,1,4,90|x,0000CC,0,9.3,20&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Sensible defaults</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data2 data3 %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=200x200&amp;cht=lc&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="200" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Axes</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-range-marker &quot;v&quot; &quot;E5ECF9&quot; &quot;.75&quot; &quot;.25&quot; %}
+  {% chart-fill-area &quot;76A4FB&quot; %}
+  {% chart-data data2|slice:&quot;::-1&quot; %}
+  {% axis &quot;left&quot; %}
+    {% axis-range 0 100 %}
+  {% endaxis %}
+  {% axis &quot;bottom&quot; %}
+    {% axis-labels &quot;Jan&quot; &quot;Feb&quot; &quot;Mar&quot; &quot;Apr&quot; %}
+  {% endaxis %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chm=R,E5ECF9,0,.75,.25|B,76A4FB,0,0,0&amp;chd=e:..5bzOtYn4ivd9ZhVdRuOXLWIsGYEcC1BmAtAL&amp;chxt=y,x&amp;chxr=0,0,100&amp;chxl=1:|Jan|Feb|Mar|Apr" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">More axes</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;column-grouped&quot; %}
+  {% chart-data data2|slice:&quot;6:10&quot; %}
+  {% chart-data data3|slice:&quot;6:10&quot; %}
+  {% chart-colors &quot;CC0000&quot; &quot;0000CC&quot; %}
+  {% chart-bar-width 30 5 10 %}
+  {% chart-background-stripes 0 &quot;cccccc&quot; 0.25 &quot;ffffff&quot; 0.25 %}
+  {% axis &quot;top&quot; %}
+    {% axis-labels &quot;Group 1&quot; &quot;Group 2&quot; &quot;Group 3&quot; &quot;Control&quot; %}
+    {% axis-label-positions 10 37 62 87 %}
+    {% axis-style &quot;000000&quot; &quot;14&quot; %}
+  {% endaxis %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=bvg&amp;chco=CC0000,0000CC&amp;chbh=30,5,10&amp;chf=bg,ls,0,cccccc,0.25,ffffff,0.25&amp;chd=e:LwQAU5ac,..3LvBng&amp;chxt=t&amp;chxl=0:|Group+1|Group+2|Group+3|Control&amp;chxp=0,10,37,62,87&amp;chxs=0,000000,14" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Data provided as literals</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;pie-3d&quot; %}
+  {% chart-data &quot;60,30,10&quot; %}
+  {% chart-colors &quot;cc00ee&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p3&amp;chco=cc00ee&amp;chd=e:..gAKr" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Automatic scaling of negative data</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-data data4 %}
+  {% chart-range-marker &quot;h&quot; &quot;000000&quot; &quot;.499&quot; &quot;.501&quot; %}
+  {% axis &quot;bottom&quot; hide %}
+  {% axis &quot;left&quot; %}
+    {% axis-labels 5 0 -5 %}
+  {% endaxis %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chm=r,000000,0,.499,.501&amp;chd=e:mXsdyE296791.i...K9G541nwgqukheIX1R2MbHyEHBjANAIBUDvHRLzRIXEdWjvp-v01B5Z8w--.9.q-G7W3gyutMnIgzabUROmJnFhCeAnAAArClFrJ0O1UiathFnatcy83s7f-N.t.8-68o5O00vkptjddEWyQ4LlHGDmBPAGAPBpEQH-MpSGYGeakzq.wv116C&amp;chxt=x,y&amp;chxs=0,000000,11,0,_&amp;chxl=0:|||1:|5|0|-5" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">All-negative data</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-data &quot;-1,-5,-10&quot; %}
+  {% axis &quot;left&quot; %}
+    {% axis-range &quot;-10&quot; &quot;0&quot; %}
+  {% endaxis %}
+  {% axis &quot;bottom&quot; hide %}
+  {% chart-range-marker &quot;h&quot; &quot;000000&quot; 1 .997 %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chm=r,000000,0,1,0.997&amp;chd=e:5lf.AA&amp;chxt=y,x&amp;chxr=0,-10,0&amp;chxs=1,000000,11,0,_&amp;chxl=1:||" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Explicit chart data range</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-data data4 %}
+  {% chart-colors &quot;00cc00&quot; %}
+  {% chart-line-style 4 %}
+  {% chart-data-range -10 10 %}
+  {% chart-range-marker &quot;h&quot; &quot;000000&quot; &quot;.499&quot; &quot;.501&quot; %}
+  {% axis &quot;bottom&quot; hide %}
+  {% axis &quot;left&quot; %}
+    {% axis-labels 10 0 -10 %}
+  {% endaxis %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=00cc00&amp;chls=4&amp;chm=r,000000,0,.499,.501&amp;chd=e:jLmOpCretdu6vwv.vkuis7qzoPlWiQfEb6Y6WNT5SDQxQGQEQqR3ToV5Ykbheqh3k-n5qgssuYvev-v0vDtqrvpWmljkgZdNaIXTUzSwRPQTQAQVRSS1U6XaaRdWgijtmuper1tvvGv2v9vcuUsmqZnxk2huehbZYcVyTjRzQnQDQHQ0SIT.WUZDcDfNiZlfoXq6tA&amp;chxt=x,y&amp;chxs=0,000000,11,0,_&amp;chxl=0:|||1:|10|0|-10" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Explicit &quot;auto&quot; chart data range</th>
+        <tr>
+          <td><pre>{% chart as sine %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;line&quot; %}
+  {% chart-data data4|slice:&quot;::-1&quot; %}
+  {% chart-data-range -10 10 %}
+  {% chart-colors &quot;0000cc&quot; %}
+  {% chart-line-style 2 2 2 %}
+  {% chart-range-marker &quot;h&quot; &quot;000000&quot; &quot;.499&quot; &quot;.501&quot; %}
+  {% axis &quot;bottom&quot; hide %}
+{% endchart %}
+
+{% chart extends sine %}
+  {% chart-data-range &quot;auto&quot; %}
+{% endchart %}</pre></td>
+          <td>
+
+<img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=0000cc&amp;chls=2,2,2&amp;chm=r,000000,0,.499,.501&amp;chd=e:6C11wvq.kzeaYGSGMpH-EQBpAPAGBPDmHGLlQ4WydEjdptvk005O8o-6.8.t-N7f3sy8tcnahFatUiO1J0FrClArAAAnCeFhJnOmURabgznItMyu3g7W-G.q.9--8w5Z1Bv0p-jvdWXERILzHRDvBUAIANBjEHHyMbR2X1eIkhquwg1n549G.K...i916729yEsdmX&amp;chxt=x&amp;chxs=0,000000,11,0,_&amp;chxl=0:||" width="300" height="200" /></td>
+        </tr>
+      
+    </tbody>
+  </table>
+</body>
+</html>
+

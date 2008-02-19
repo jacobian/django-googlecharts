@@ -1,0 +1,288 @@
+Chart tag examples
+==================
+
+3D pie chart, simple data, labels
+---------------------------------
+
+::
+
+  {% chart %}
+    {% chart-data data1 %}
+    {% chart-size "300x200" %}
+    {% chart-type "pie" %}
+    {% chart-labels "One" "Two" "Three" %}
+    {% chart-alt "It worked!" %}
+  {% endchart %}
+
+Line chart, legend, fill, colors, saving as a variable
+------------------------------------------------------
+
+::
+
+  {% chart as c %}
+    {% chart-data data2 %}
+    {% chart-type "line" %}
+    {% chart-size "300x200" %}
+    {% chart-colors "CC0000" %}
+    {% chart-fill "EEEEEE" %}
+    {% chart-legend "Sweet" %}
+  {% endchart %}
+  <img src="{{ c.url }}" width="300" height="200" />
+
+Titles, multiple colors, background
+-----------------------------------
+
+::
+
+  {% chart %}
+    {% chart-title "Hello, World!" %}
+    {% chart-data data2 data3 %}
+    {% chart-type "line" %}
+    {% chart-size "300x200" %}
+    {% chart-colors "CC0000" "00CC00" %}
+    {% chart-background "EEEEEE" %}
+  {% endchart %}
+
+Venn charts, background gradients
+---------------------------------
+
+::
+
+  {% chart %}
+    {% chart-data venn %}
+    {% chart-type "venn" %}
+    {% chart-size "300" "200" %}
+    {% chart-background-gradient "45" "000000" "0" "FFFFFF" "0.6" %}
+  {% endchart %}
+
+Pie charts, stripes
+-------------------
+
+::
+
+  {% chart %}
+    {% chart-data data1 %}
+    {% chart-size "300x200" %}
+    {% chart-type "pie" %}
+    {% chart-background-stripes "45" "cccccc" "0.05" "FFFFFF" "0.05" %}
+  {% endchart %}
+
+Bar chart, chart-bar-width
+--------------------------
+
+::
+
+  {% chart %}
+    {% chart-data data1 %}
+    {% chart-size "300x200" %}
+    {% chart-type "bar" %}
+    {% chart-bar-width 60 0 6 %}
+  {% endchart %}
+
+Extension, column charts (grouped & stacked), filters in data expressions
+-------------------------------------------------------------------------
+
+::
+
+  {% chart as columns %}
+    {% chart-size "300x200" %}
+    {% chart-type "column-grouped" %}
+    {% chart-data data2|slice:"6:10" %}
+    {% chart-data data3|slice:"6:10" %}
+    {% chart-colors "CC0000" "0000CC" %}
+    {% chart-bar-width 30 5 10 %}
+  {% endchart %}
+  {{ columns.img }}
+
+  {% chart extends columns %}
+    {% chart-type "column-stacked" %}
+    {% chart-bar-width 70 6 0 %}
+  {% endchart %}
+
+Scatter chart
+-------------
+
+::
+
+  {% chart %}
+    {% chart-data data2 %}
+    {% chart-data data3 %}
+    {% chart-size "300x200" %}
+    {% chart-type "scatter" %}
+  {% endchart %}
+
+Chart-line-style, chart-grid
+----------------------------
+
+::
+
+  {% chart %}
+    {% chart-data data2 data3 %}
+    {% chart-type "line" %}
+    {% chart-size "300x200" %}
+    {% chart-colors "CC0000" "00CC00" %}
+    {% chart-line-style 3 6 3 %}
+    {% chart-line-style 1 1 2 %}
+    {% chart-grid 15 15 1 1 %}
+  {% endchart %}
+
+Extension, ranger markers, fill-area
+------------------------------------
+
+::
+
+  {% chart as line %}
+    {% chart-type "line" %}
+    {% chart-size "300x200" %}
+    {% chart-range-marker "v" "E5ECF9" ".75" ".25" %}
+    {% chart-fill-area "76A4FB" %}
+  {% endchart %}
+
+  {% chart extends line %}
+    {% chart-data data2 %}
+  {% endchart %}
+
+More markers
+------------
+
+::
+
+  {% chart %}
+    {% chart-data data2 data3 %}
+    {% chart-type "line" %}
+    {% chart-size "300x200" %}
+    {% chart-colors "CC0000" "00CC00" %}
+    {% chart-marker "circle" "cccc0077" 1 4 90 %}
+    {% chart-marker "x" "0000CC" 0 9.3 20 %}
+  {% endchart %}
+
+Sensible defaults
+-----------------
+
+::
+
+  {% chart %}
+    {% chart-data data2 data3 %}
+  {% endchart %}
+  
+Axes
+----
+
+::
+
+  {% chart %}
+    {% chart-type "line" %}
+    {% chart-size "300x200" %}
+    {% chart-range-marker "v" "E5ECF9" ".75" ".25" %}
+    {% chart-fill-area "76A4FB" %}
+    {% chart-data data2|slice:"::-1" %}
+    {% axis "left" %}
+      {% axis-range 0 100 %}
+    {% endaxis %}
+    {% axis "bottom" %}
+      {% axis-labels "Jan" "Feb" "Mar" "Apr" %}
+    {% endaxis %}
+  {% endchart %}
+
+More axes
+---------
+
+::
+
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "column-grouped" %}
+    {% chart-data data2|slice:"6:10" %}
+    {% chart-data data3|slice:"6:10" %}
+    {% chart-colors "CC0000" "0000CC" %}
+    {% chart-bar-width 30 5 10 %}
+    {% chart-background-stripes 0 "cccccc" 0.25 "ffffff" 0.25 %}
+    {% axis "top" %}
+      {% axis-labels "Group 1" "Group 2" "Group 3" "Control" %}
+      {% axis-label-positions 10 37 62 87 %}
+      {% axis-style "000000" "14" %}
+    {% endaxis %}
+  {% endchart %}
+  
+Data provided as literals
+-------------------------
+
+::
+
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "pie-3d" %}
+    {% chart-data "60,30,10" %}
+    {% chart-colors "cc00ee" %}
+  {% endchart %}
+
+Automatic scaling of negative data
+----------------------------------
+
+::
+
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "line" %}
+    {% chart-data data4 %}
+    {% chart-range-marker "h" "000000" ".499" ".501" %}
+    {% axis "bottom" hide %}
+    {% axis "left" %}
+      {% axis-labels 5 0 -5 %}
+    {% endaxis %}
+  {% endchart %}
+ 
+All-negative data
+-----------------
+
+::
+
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "line" %}
+    {% chart-data "-1,-5,-10" %}
+    {% axis "left" %}
+      {% axis-range "-10" "0" %}
+    {% endaxis %}
+    {% axis "bottom" hide %}
+    {% chart-range-marker "h" "000000" 1 .997 %}
+  {% endchart %}
+  
+Explicit chart data range
+-------------------------
+
+::
+
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "line" %}
+    {% chart-data data4 %}
+    {% chart-colors "00cc00" %}
+    {% chart-line-style 4 %}
+    {% chart-data-range -10 10 %}
+    {% chart-range-marker "h" "000000" ".499" ".501" %}
+    {% axis "bottom" hide %}
+    {% axis "left" %}
+      {% axis-labels 10 0 -10 %}
+    {% endaxis %}
+  {% endchart %}
+  
+Explicit "auto" chart data range
+--------------------------------
+
+::
+
+  {% chart as sine %}
+    {% chart-size "300x200" %}
+    {% chart-type "line" %}
+    {% chart-data data4|slice:"::-1" %}
+    {% chart-data-range -10 10 %}
+    {% chart-colors "0000cc" %}
+    {% chart-line-style 2 2 2 %}
+    {% chart-range-marker "h" "000000" ".499" ".501" %}
+    {% axis "bottom" hide %}
+  {% endchart %}
+  
+  {% chart extends sine %}
+    {% chart-data-range "auto" %}
+  {% endchart %}

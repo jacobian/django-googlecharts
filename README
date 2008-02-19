@@ -1,0 +1,23 @@
+Google Charts template tag
+==========================
+
+This is a suite of template tags to assist in generating charts using Google's
+`Chart API`__. There's deliberately no Python-level API; try pygooglechart__
+for that.
+
+Currently the library is long on code, and short on testing and documentation.
+It's only been tested against Django trunk (r7135) and Python 2.5.
+
+For example usage, see ``docs/examples.html``.
+
+__ http://code.google.com/apis/chart/
+__ http://pygooglechart.slowchop.com/
+
+Contributing
+------------
+
+I use Mercurial; the canonical repository lives at
+http://toys.jacobian.org/hg/uri. Please feel free to send patches or links to
+other branches to <jacob@jacobian.org>
+
+See ``TODO.taskpaper`` for my current to-do list.

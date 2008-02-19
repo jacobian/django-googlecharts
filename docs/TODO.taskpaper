@@ -1,0 +1,16 @@
+- add docstrings to tags so that the auto-admin docs work.
+- actually implement "saveas"
+- tests and examples: start as reST with special blocks; those blocks get rendered *and* source displayed
+- Generate sane default axes (if not given) for line graphs. This includes hiding the bottom axis and drawing a fake x axis at 0 if the data spans 0. Perhaps "{% axes auto %}" or something...
+- chart-data might need to take options as to how to deal with the data -- strings should have customizable splitters, multiple datasets in the same variable should be supported, ...
+- chart-data should handle querysets in some logical manner (or maybe chart-data-from-qs tag) Being able to say {% chart-data qs fieldname %} would rock. Perhaps this would be best done in a "map" filter: {% chart-data qs|map:"fieldname" %}?
+Archive:
+- Axes @done
+- Shape markers @done
+- Default options for required data @done
+- Allow "extending" graphs:: @done
+- Return value of {% graph as g %} should be an object (i.e. {{ g.url }}). @done
+- Alt text @done
+- there should be a chart-range tag to allow scaling of data to particular ranges @done
+- otherwise automatic ranges should be determined @done
+- negative values should be automatically scaled unless manual scales exist @done
