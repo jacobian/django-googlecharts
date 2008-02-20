@@ -286,3 +286,16 @@ Explicit "auto" chart data range
   {% chart extends sine %}
     {% chart-data-range "auto" %}
   {% endchart %}
+  
+Chart labels may also accept lists
+----------------------------------
+
+::
+
+    {% chart %}
+      {% chart-data data1 %}
+      {% chart-size "300x200" %}
+      {% chart-type "pie" %}
+      {% chart-labels data1 %}
+    {% endchart %}
+    

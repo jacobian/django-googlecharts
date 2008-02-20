@@ -330,11 +330,11 @@ def chart_title(title, fontsize=None):
 
 @option("chart-legend", multi="|")
 def chart_legend(*labels):
-    return {"chdl": smart_join("|", *labels)}
+    return {"chdl": smart_join("|", *flatten(labels))}
     
 @option("chart-labels", multi="|")
 def chart_labels(*labels):
-    return {"chl": smart_join("|", *labels)}
+    return {"chl": smart_join("|", *flatten(labels))}
 
 @option("chart-bar-width")
 def chart_bar_width(width, barspace=None, groupspace=None):
@@ -477,11 +477,11 @@ class Axis(object):
 
 @option("axis-labels", nodeclass=AxisOptionNode)
 def axis_labels(*labels):
-    return {"chxl": "%s:|" + smart_join("|", *labels)}
+    return {"chxl": "%s:|" + smart_join("|", *flatten(labels))}
     
 @option("axis-label-positions", nodeclass=AxisOptionNode)
 def axis_label_position(*positions):
-    return {"chxp": smart_join(",", "%s", *positions)}
+    return {"chxp": smart_join(",", "%s", *flatten(positions))}
     
 @option("axis-range", nodeclass=AxisOptionNode)
 def axis_range(start, end):
@@ -562,4 +562,12 @@ def urlencode(query, safe="/:,|"):
     q = functools.partial(quote_plus, safe=safe)
     query = query.items() if hasattr(query, "items") else query
     qlist = ["%s=%s" % (q(k), q(v)) for (k,v) in query]
-    return "&".join(qlist)    
+    return "&".join(qlist)
+    
+def flatten(iterator):
+    for i in iterator:
+        if hasattr(i, "__iter__"):
+            for j in flatten(iter(i)):
+                yield j
+        else:
+            yield i

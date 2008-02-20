@@ -306,6 +306,18 @@
 <img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=0000cc&amp;chls=2,2,2&amp;chm=r,000000,0,.499,.501&amp;chd=e:6C11wvq.kzeaYGSGMpH-EQBpAPAGBPDmHGLlQ4WydEjdptvk005O8o-6.8.t-N7f3sy8tcnahFatUiO1J0FrClArAAAnCeFhJnOmURabgznItMyu3g7W-G.q.9--8w5Z1Bv0p-jvdWXERILzHRDvBUAIANBjEHHyMbR2X1eIkhquwg1n549G.K...i916729yEsdmX&amp;chxt=x&amp;chxs=0,000000,11,0,_&amp;chxl=0:||" width="300" height="200" /></td>
         </tr>
       
+        <tr>
+          <th colspan="2">Chart labels may also accept lists</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data1 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;pie&quot; %}
+  {% chart-labels data1 %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chl=10|20|30&amp;chd=e:VVqq.." width="300" height="200" /></td>
+        </tr>
+      
     </tbody>
   </table>
 </body>
