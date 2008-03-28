@@ -321,10 +321,10 @@ def _fancy_background(bgtype, fancytype, angle, colors):
     return {"chf": smart_join(",", bgtype, fancytype, angle, *colors)}
 
 @option("chart-title")
-def chart_title(title, fontsize=None):
+def chart_title(title, fontsize=None, color="000000"):
     title = title.replace("\n", "|")
     if fontsize:
-        return {"chtt": "%s,%s" % (title, fontsize)}
+        return {"chtt":title, "chts":"%s,%s" % (color, fontsize)}
     else:
         return {"chtt": title}
 

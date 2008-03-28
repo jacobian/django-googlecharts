@@ -299,3 +299,15 @@ Chart labels may also accept lists
       {% chart-labels data1 %}
     {% endchart %}
     
+Custom title sizes, colors
+--------------------------
+
+::
+
+    {% chart %}
+      {% chart-data data1 %}
+      {% chart-size "300x200" %}
+      {% chart-type "pie" %}
+      {% chart-title "Pie!" 18 "cc0000" %}
+    {% endchart %}
+

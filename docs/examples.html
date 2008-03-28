@@ -318,6 +318,18 @@
           <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chl=10|20|30&amp;chd=e:VVqq.." width="300" height="200" /></td>
         </tr>
       
+        <tr>
+          <th colspan="2">Custom title sizes, colors</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data1 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;pie&quot; %}
+  {% chart-title &quot;Pie!&quot; 18 &quot;cc0000&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chts=cc0000,18&amp;chtt=Pie%21&amp;chd=e:VVqq.." width="300" height="200" /></td>
+        </tr>
+      
     </tbody>
   </table>
 </body>
