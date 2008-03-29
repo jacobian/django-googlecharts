@@ -107,7 +107,7 @@ class Chart(object):
             self.datarange = (minvalue, maxvalue)
         
         # Encode data
-        if "chds" in self.options.keys() or self.options["cht"] == 'gom': 
+        if "chds" in self.options or self.options.get('cht', None) == 'gom': 
             # text encoding if scaling provided, or for google-o-meter type
             data = "|".join(encode_text(d) for d in self.datasets)
             encoded_data = "t:%s" % data
