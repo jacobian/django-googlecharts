@@ -107,8 +107,14 @@ class Chart(object):
             self.datarange = (minvalue, maxvalue)
         
         # Encode data
-        data = extended_seperator.join(encode_extended(d, self.datarange) for d in self.datasets)
-        encoded_data = "e:%s" % data
+        if "chds" in self.options.keys() or self.options["cht"] == 'gom': 
+            # text encoding if scaling provided, or for google-o-meter type
+            data = "|".join(encode_text(d) for d in self.datasets)
+            encoded_data = "t:%s" % data
+        else: 
+            # extended encoding otherwise
+            data = extended_separator.join(encode_extended(d, self.datarange) for d in self.datasets)
+            encoded_data = "e:%s" % data
         
         # Update defaults
         for k in self.defaults:
@@ -160,7 +166,7 @@ class ChartDataNode(template.Node):
                 data = []
             
             # XXX need different ways of representing pre-encoded data, data with
-            # different seperators, etc.
+            # different separators, etc.
             if isinstance(data, basestring):
                 data = filter(None, map(safefloat, data.split(",")))
             else:
@@ -276,9 +282,14 @@ def chart_type(arg):
         'pie-3d':           'p3',
         'venn':             'v',
         'scatter':          's',
+        'google-o-meter':   'gom',
     }
     return {"cht": types.get(arg, arg)}
-    
+
+@option("chart-data-scale", multi=",")
+def chart_colors(*args):
+    return {"chds": smart_join(",", *args)}
+
 @option("chart-colors", multi=",")
 def chart_colors(*args):
     return {"chco": smart_join(",", *args)}
@@ -523,7 +534,10 @@ def chart_alt(chart, alt=None):
 #
 # Helper functions
 #
-extended_seperator = ","
+extended_separator = ","
+
+def encode_text(values):
+    return extended_separator.join(str(v) for v in values)
 
 def encode_extended(values, value_range):
     """Encode data using Google's "extended" encoding for the most granularity."""

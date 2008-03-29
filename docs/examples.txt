@@ -99,6 +99,20 @@ Extension, column charts (grouped & stacked), filters in data expressions
     {% chart-bar-width 70 6 0 %}
   {% endchart %}
 
+Data scaling to avoid truncation
+--------------------------------
+
+::
+  
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "column-stacked" %}
+    {% chart-data data2|slice:"6:10" %}
+    {% chart-data data3|slice:"6:10" %}
+    {% chart-data-scale "-10,250" %}
+    {% chart-colors "CC0000" "0000CC" %}
+  {% endchart %}
+
 Scatter chart
 -------------
 
@@ -309,5 +323,18 @@ Custom title sizes, colors
       {% chart-size "300x200" %}
       {% chart-type "pie" %}
       {% chart-title "Pie!" 18 "cc0000" %}
+    {% endchart %}
+
+Google-o-meter chart, with data scaling
+---------------------------------------
+
+::
+
+    {% chart %}
+      {% chart-labels "head" %}
+      {% chart-size "300x200" %}
+      {% chart-type "google-o-meter" %}
+      {% chart-data-scale "0,10" %}
+      {% chart-data "5" %}
     {% endchart %}
 
