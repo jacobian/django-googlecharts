@@ -16,8 +16,5 @@ __ http://pygooglechart.slowchop.com/
 Contributing
 ------------
 
-I use Mercurial; the canonical repository lives at
-http://toys.jacobian.org/hg/uri. Please feel free to send patches or links to
-other branches to <jacob@jacobian.org>
-
-See ``TODO.taskpaper`` for my current to-do list.
+The source is on GitHub: http://github.com/jacobian/django-googlecharts. Feel
+free to send me pull requests, or send patches to <jacob@jacobian.org>.
