@@ -357,6 +357,19 @@
           <td><img src="http://chart.apis.google.com/chart?chl=head&amp;chs=300x200&amp;cht=gom&amp;chds=0,10&amp;chd=t:5.0" width="300" height="200" /></td>
         </tr>
       
+        <tr>
+          <th colspan="2">Map chart</th>
+        <tr>
+          <td><pre>{% chart %}
+    {% chart-size &quot;440x220&quot; %}
+    {% chart-type &quot;map&quot; %}
+    {% chart-map-area &quot;usa&quot; %}
+    {% chart-map-data mapdata %}
+    {% chart-colors &quot;fffffff&quot; &quot;ff0000&quot; &quot;0000ff&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=440x220&amp;cht=t&amp;chtm=usa&amp;chld=KSCAMN&amp;chco=fffffff,ff0000,0000ff&amp;chd=e:AA..gA" width="440" height="220" /></td>
+        </tr>
+      
     </tbody>
   </table>
 </body>

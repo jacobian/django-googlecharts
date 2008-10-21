@@ -19,6 +19,7 @@ def render_examples():
         'data3' : [i**2 for i in range(20, 0, -1)],
         'data4' : [sin(i/5.0)*5 for i in range(100)],
         'venn' : [100, 80, 60, 30, 30, 30, 10],
+        'mapdata': {'KS': 0, 'CA': 100, "MN": 50},
     }
     examples = []
     source = Path(__file__).parent.child("examples.txt").read_file()

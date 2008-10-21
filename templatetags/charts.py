@@ -100,6 +100,9 @@ class Chart(object):
         return s
 
     def url(self):
+        if self.options.get('cht', None) == 't':
+            self.datasets.append(self.options.pop("_mapdata"))
+
         # Figure out the chart's data range
         if not self.datarange:
             maxvalue = max(max(d) for d in self.datasets if d)
@@ -266,6 +269,7 @@ def chart_type(arg):
         * 'pie-3d'
         * 'venn'
         * 'scatter'
+        * 'map'
         
     """
     types = {
@@ -283,6 +287,7 @@ def chart_type(arg):
         'venn':             'v',
         'scatter':          's',
         'google-o-meter':   'gom',
+        'map':              't',
     }
     return {"cht": types.get(arg, arg)}
 
@@ -415,6 +420,22 @@ def chart_markers(dataset_index, iterable):
     
     return {"chm": smart_join("|", markers)}
 
+@option("chart-map-area")
+def chart_map_area(where):
+    return {'chtm': where}
+    
+@option("chart-map-data")
+def chart_map_data(data):
+    place_list = []
+    value_list = []
+    for (k, v) in data.items():
+        place_list.append(k)
+        value_list.append(v)
+    return {
+        "chld": smart_join("", *place_list),
+        "_mapdata": value_list
+    }
+        
 #
 # {% axis %}
 #
