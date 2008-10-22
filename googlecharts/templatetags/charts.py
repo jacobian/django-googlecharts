@@ -230,8 +230,11 @@ def option(tagname, multi=None, nodeclass=ChartOptionNode):
     def decorator(func):
         # Figure out how to validate the args to the tag
         args, varargs, varkw, defaults = inspect.getargspec(func)
-        max_args = len(args) if args else 0
-        min_args = max_args - (len(defaults) if defaults else 0)
+        max_args = min_args = 0
+        if args:
+            max_args = len(args)
+        if defaults:
+            min_args = max_args - len(defaults)
         unlimited = bool(varargs)
         
         @functools.wraps(func)
@@ -380,7 +383,10 @@ def chart_range_marker(range_type, color, start, end):
 
 @option("chart-fill-area", multi="|")
 def chart_fill_area(color, startindex=0, endindex=0):
-    filltype = ("b" if (startindex or endindex) else "B")
+    if startindex or endindex:
+        filltype = "b"
+    else:
+        filltype = "B"
     return {"chm": smart_join(",", filltype, color, startindex, endindex, "0")}
 
 marker_types = {
@@ -568,7 +574,10 @@ _encoding_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678
 _num2chars = [a+b for a in _encoding_chars for b in _encoding_chars]
 
 def num2chars(n, value_range):
-    return _num2chars[norm(n, value_range)] if n is not None else "__"
+    if n is not None:
+        return _num2chars[norm(n, value_range)]
+    else:
+        return '__'
     
 def norm(n, value_range):
     minvalue, maxvalue = value_range
@@ -595,7 +604,7 @@ from urllib import quote_plus
 
 def urlencode(query, safe="/:,|"):
     q = functools.partial(quote_plus, safe=safe)
-    query = query.items() if hasattr(query, "items") else query
+    query = getattr(query, 'items', lambda: query)()
     qlist = ["%s=%s" % (q(k), q(v)) for (k,v) in query]
     return "&".join(qlist)
     
