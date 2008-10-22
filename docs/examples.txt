@@ -348,6 +348,6 @@ Map chart
         {% chart-type "map" %}
         {% chart-map-area "usa" %}
         {% chart-map-data mapdata %}
-        {% chart-colors "fffffff" "ff0000" "0000ff" %}
+        {% chart-colors "ffffff" "ff0000" "0000ff" %}
     {% endchart %}
 
