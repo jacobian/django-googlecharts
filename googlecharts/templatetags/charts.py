@@ -1,6 +1,5 @@
 import sys
 import inspect
-import functools
 from django import template
 from django.conf import settings
 from django.utils.datastructures import SortedDict
@@ -240,7 +239,6 @@ def option(tagname, multi=None, nodeclass=ChartOptionNode):
             min_args = max_args - len(defaults)
         unlimited = bool(varargs)
         
-        @functools.wraps(func)
         def template_tag_callback(parser, token):
             bits = iter(token.split_contents())
             name = bits.next()
@@ -252,7 +250,8 @@ def option(tagname, multi=None, nodeclass=ChartOptionNode):
                 raise template.TemplateSyntaxError("Too many arguments to '%s'" % name)
             
             return nodeclass(func, args, multi)
-        
+        template_tag_callback.__name__ = func.__name__
+        template_tag_callback.__doc__ = func.__doc__        
         register.tag(tagname, template_tag_callback)
         return func
         
@@ -606,7 +605,7 @@ def smart_join(sep, *args):
 from urllib import quote_plus
 
 def urlencode(query, safe="/:,|"):
-    q = functools.partial(quote_plus, safe=safe)
+    q = lambda v: quote_plus(v, safe=safe)
     query = getattr(query, 'items', lambda: query)()
     qlist = ["%s=%s" % (q(k), q(v)) for (k,v) in query]
     return "&".join(qlist)
