@@ -95,7 +95,10 @@ class Chart(object):
     def img(self):
         url = self.url()
         width, height = self.options["chs"].split("x")
-        alt = 'alt="%s" ' % escape(self.alt) if self.alt else ''
+        if self.alt:
+            alt = 'alt="%s" ' % escape(self.alt)
+        else:
+            alt = ''
         s = mark_safe('<img src="%s" width="%s" height="%s" %s/>' % (escape(url), width, height, alt))
         return s
 
