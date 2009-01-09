@@ -409,24 +409,24 @@ def chart_marker(marker, color, dataset_index, data_point, size):
     marker = marker_types.get(marker, marker)
     return {"chm": smart_join(",", marker, color, dataset_index, data_point, size)}
     
-@option("chart-makers", multi="|")
+@option("chart-markers", multi="|")
 def chart_markers(dataset_index, iterable):
     """Provide an iterable yielding (type, color, point, size)"""
     try:
         it = iter(iterable)
     except TypeError:
         return {}
-    
+
     markers = []
     for m in it:
         try:
-            marker, color, point, size = m
+            marker, color, data_point, size = m
         except ValueError:
             continue
-        marker - marker_types.get(marker, marker)
+        marker = marker_types.get(marker, marker)
         markers.append(smart_join(",", marker, color, dataset_index, data_point, size))
-    
-    return {"chm": smart_join("|", markers)}
+
+    return {"chm": smart_join("|", *flatten(markers))}
 
 @option("chart-map-area")
 def chart_map_area(where):
