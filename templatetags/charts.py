@@ -1,6 +1,8 @@
 import sys
 import inspect
 import functools
+import colorsys
+
 from django import template
 from django.conf import settings
 from django.utils.datastructures import SortedDict
@@ -9,6 +11,9 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe, SafeData
 
 register = template.Library()
+
+# Set this to the color for the inactive areas of an interactive chart
+chart_inactive_color = 'eeeeee'
 
 #
 # {% chart %}
@@ -60,6 +65,17 @@ class ChartNode(template.Node):
                 node.update_chart(c, context)
             elif isinstance(node, AxisNode):
                 c.axes.append(node.resolve(context))
+        
+        # Take any options that begin with '_' and add them to the context,
+        # omitting the underscore.
+        for o in c.options:
+            if o.startswith('_'):
+                context[o[1:]] = c.options[o]
+        
+        # Create some additional images showing only one of the colors,
+        # replacing the others with grayed-out images
+        for o in c.options['_final_color_map'].items():
+            context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
 
         if self.varname:
             context[self.varname] = c
@@ -76,7 +92,7 @@ class Chart(object):
     }
 
     def __init__(self):
-        # Use a SortedDict for the opeions so they are added in a
+        # Use a SortedDict for the options so they are added in a
         # deterministic manner; this eases things like dealing with cache keys 
         # or writing unit tests.
         self.options = SortedDict()
@@ -92,11 +108,22 @@ class Chart(object):
         clone.axes = self.axes[:]
         return clone
 
-    def img(self):
+    def img(self, color_override = None):
+        orig_colors = self.options['chco']
+        # If color_override is set, replace the chco option with this color
+        if color_override is not None:
+            final_color = []
+            for c in self.options['chco'].split(','):
+                if c != color_override:
+                    c = chart_inactive_color
+                final_color.append(c)
+            self.options['chco'] = ','.join(final_color)
         url = self.url()
+        self.options['chco'] = orig_colors
         width, height = self.options["chs"].split("x")
         alt = 'alt="%s" ' % escape(self.alt) if self.alt else ''
         s = mark_safe('<img src="%s" width="%s" height="%s" %s/>' % (escape(url), width, height, alt))
+
         return s
 
     def url(self):
@@ -266,10 +293,12 @@ def chart_type(arg):
         * 'pie-3d'
         * 'venn'
         * 'scatter'
+        * 'sparkline'
         
     """
     types = {
         'line':             'lc',
+        'sparkline':        'lc',
         'xy':               'lxy',
         'line-xy':          'lxy',
         'bar':              'bhg',
@@ -286,14 +315,67 @@ def chart_type(arg):
     }
     return {"cht": types.get(arg, arg)}
 
-@option("chart-data-scale", multi=",")
-def chart_colors(*args):
-    return {"chds": smart_join(",", *args)}
-
 @option("chart-colors", multi=",")
 def chart_colors(*args):
-    return {"chco": smart_join(",", *args)}
+    chco = smart_join(",", *args)
+    return {"chco": chco }
     
+
+@option("chart-auto-colors")
+def chart_auto_colors(color, item_label_list):
+    '''Takes a starting color and a list of labels and creates the correct number of
+    colors, storing the correspondance between the labels and colors for later use
+    in the context.'''
+
+    # Convert to RGB values between 0 and 1
+    _r = float(int(color[0:2], 16)) / 255
+    _g = float(int(color[2:4], 16)) / 255
+    _b = float(int(color[4:6], 16)) / 255
+    
+    # Switch to HSV color space
+    hsv = colorsys.rgb_to_hsv(_r, _g, _b)
+
+    colors = []
+
+    # Set up our saturation multiplier
+    increment = float(1) / len(item_label_list) 
+
+    # For each label, compute a new color
+    for index, color in enumerate(range(0, len(item_label_list))):
+        
+        # Reduce the current saturation by this value (starts at 1)
+        saturation_factor = (increment * index + 1)
+
+        # Convert back to rgb
+        c_list = colorsys.hsv_to_rgb(hsv[0], hsv[1] / saturation_factor, hsv[2])
+
+        # Turn a list of rgb values from 0 to 1 back to a value from 0 to 255, 
+        # and then to hex
+        c_converted = ([ str(hex(int(c * 255)))[2:] for c in c_list])
+
+        c_final = []
+
+        # Zero-pad the hex numbers
+        for c in c_converted:
+            try:
+                c = "%02d" % int(c)
+            except ValueError, e:
+                # Ignore, this is a hex letter (e.g. 'ff')
+                pass
+            c_final.append(c)
+        colors.append(''.join(c_final))
+
+    final_color_map = {}
+
+    # Map our final color values to the label that will be associated with them
+    for index, c in enumerate(colors):
+        final_color_map[c] = item_label_list[index]
+
+    # Values which begin with an underscore won't be passed on to Google but will
+    # end up in the request context.
+    return {"chco": ','.join(colors),
+            '_final_color_map': final_color_map}
+
 @option("chart-size")
 def chart_size(arg1, arg2=None):
     if arg2:
@@ -573,9 +655,10 @@ def smart_join(sep, *args):
 from urllib import quote_plus
 
 def urlencode(query, safe="/:,|"):
+    '''Omit any options that begin with _; for internal use'''
     q = functools.partial(quote_plus, safe=safe)
     query = query.items() if hasattr(query, "items") else query
-    qlist = ["%s=%s" % (q(k), q(v)) for (k,v) in query]
+    qlist = ["%s=%s" % (q(k), q(v)) for (k,v) in query if not k.startswith('_')]
     return "&".join(qlist)
     
 def flatten(iterator):
