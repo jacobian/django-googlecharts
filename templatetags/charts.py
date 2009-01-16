@@ -114,7 +114,9 @@ class Chart(object):
         if color_override is not None:
             final_color = []
             for c in self.options['chco'].split(','):
-                if c != color_override:
+                if c == color_override:
+                    c = orig_colors.split(',')[0]
+                else:
                     c = chart_inactive_color
                 final_color.append(c)
             self.options['chco'] = ','.join(final_color)
@@ -148,7 +150,7 @@ class Chart(object):
             if k not in self.options:
                 self.options[k] = self.defaults[k]
         
-        # Start to calcuate the URL
+        # Start to calculate the URL
         url = "%s?%s&chd=%s" % (self.BASE, urlencode(self.options), encoded_data)
         
         # Calculate axis options
@@ -338,13 +340,14 @@ def chart_auto_colors(color, item_label_list):
     colors = []
 
     # Set up our saturation multiplier
-    increment = float(1) / len(item_label_list) 
+    increment = 100  / len(item_label_list) 
 
     # For each label, compute a new color
     for index, color in enumerate(range(0, len(item_label_list))):
         
         # Reduce the current saturation by this value (starts at 1)
-        saturation_factor = (increment * index + 1)
+        saturation_factor = increment / 100.0 * index + 1
+        print saturation_factor
 
         # Convert back to rgb
         c_list = colorsys.hsv_to_rgb(hsv[0], hsv[1] / saturation_factor, hsv[2])
