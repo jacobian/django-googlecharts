@@ -72,10 +72,10 @@ class ChartNode(template.Node):
             if o.startswith('_'):
                 context[o[1:]] = c.options[o]
         
-        # Create some additional images showing only one of the colors,
-        # replacing the others with grayed-out images
-        for o in c.options['_final_color_map'].items():
-            context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
+#        # Create some additional images showing only one of the colors,
+#        # replacing the others with grayed-out images
+#        for o in c.options['_final_color_map'].items():
+#            context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
 
         if self.varname:
             context[self.varname] = c
@@ -334,20 +334,31 @@ def chart_auto_colors(color, item_label_list):
     
     # Switch to HSV color space
     hsv = colorsys.rgb_to_hsv(_r, _g, _b)
+    hls = colorsys.rgb_to_hls(_r, _g, _b)
+
+    print hsv
+    print hls
 
     colors = []
 
     # Set up our saturation multiplier
-    increment = float(1) / len(item_label_list) 
+    increment = 1 + len(item_label_list)
 
     # For each label, compute a new color
     for index, color in enumerate(range(0, len(item_label_list))):
         
-        # Reduce the current saturation by this value (starts at 1)
-        saturation_factor = (increment * index + 1)
+        if index == 0:
+            # this is the first value, make it 100%
+            value = hsv[1]
+        elif index == len(item_label_list) - 1:
+            #this is the last value, make it 20%
+            value = hsv[1] * .2
+        else:
+            # otherwise, do a calculation
+            value = (.80 /(len(item_label_list) - 1)) * hsv[1]
 
         # Convert back to rgb
-        c_list = colorsys.hsv_to_rgb(hsv[0], hsv[1] / saturation_factor, hsv[2])
+        c_list = colorsys.hsv_to_rgb(hsv[0], value, hsv[2])
 
         # Turn a list of rgb values from 0 to 1 back to a value from 0 to 255, 
         # and then to hex
