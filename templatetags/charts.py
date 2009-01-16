@@ -72,10 +72,10 @@ class ChartNode(template.Node):
             if o.startswith('_'):
                 context[o[1:]] = c.options[o]
         
-#        # Create some additional images showing only one of the colors,
-#        # replacing the others with grayed-out images
-#        for o in c.options['_final_color_map'].items():
-#            context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
+        # Create some additional images showing only one of the colors,
+        # replacing the others with grayed-out images
+        for o in c.options['_final_color_map'].items():
+            context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
 
         if self.varname:
             context[self.varname] = c
@@ -114,7 +114,9 @@ class Chart(object):
         if color_override is not None:
             final_color = []
             for c in self.options['chco'].split(','):
-                if c != color_override:
+                if c == color_override:
+                    c = orig_colors.split(',')[0]
+                else:
                     c = chart_inactive_color
                 final_color.append(c)
             self.options['chco'] = ','.join(final_color)
@@ -148,7 +150,7 @@ class Chart(object):
             if k not in self.options:
                 self.options[k] = self.defaults[k]
         
-        # Start to calcuate the URL
+        # Start to calculate the URL
         url = "%s?%s&chd=%s" % (self.BASE, urlencode(self.options), encoded_data)
         
         # Calculate axis options
@@ -334,10 +336,6 @@ def chart_auto_colors(color, item_label_list):
     
     # Switch to HSV color space
     hsv = colorsys.rgb_to_hsv(_r, _g, _b)
-    hls = colorsys.rgb_to_hls(_r, _g, _b)
-
-    print hsv
-    print hls
 
     colors = []
 
@@ -346,7 +344,6 @@ def chart_auto_colors(color, item_label_list):
 
     # For each label, compute a new color
     for index, color in enumerate(range(0, len(item_label_list))):
-        
         if index == 0:
             # this is the first value, make it 100%
             value = hsv[1]
@@ -376,7 +373,7 @@ def chart_auto_colors(color, item_label_list):
             c_final.append(c)
         colors.append(''.join(c_final))
 
-    final_color_map = {}
+    final_color_map = SortedDict()
 
     # Map our final color values to the label that will be associated with them
     for index, c in enumerate(colors):
