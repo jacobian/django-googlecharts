@@ -365,7 +365,7 @@ def chart_auto_colors(color, item_label_list):
             c_final.append(c)
         colors.append(''.join(c_final))
 
-    final_color_map = {}
+    final_color_map = SortedDict()
 
     # Map our final color values to the label that will be associated with them
     for index, c in enumerate(colors):
