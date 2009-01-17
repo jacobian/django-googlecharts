@@ -74,8 +74,9 @@ class ChartNode(template.Node):
         
         # Create some additional images showing only one of the colors,
         # replacing the others with grayed-out images
-        for o in c.options['_final_color_map'].items():
-            context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
+        if '_final_color_map' in c.options:
+            for o in c.options['_final_color_map'].items():
+                context["chart_%s_only" % o[1]] = c.img(color_override=o[0])
 
         if self.varname:
             context[self.varname] = c
@@ -109,7 +110,7 @@ class Chart(object):
         return clone
 
     def img(self, color_override = None):
-        orig_colors = self.options['chco']
+        orig_colors = self.options.get('chco')
         # If color_override is set, replace the chco option with this color
         if color_override is not None:
             final_color = []
@@ -121,7 +122,8 @@ class Chart(object):
                 final_color.append(c)
             self.options['chco'] = ','.join(final_color)
         url = self.url()
-        self.options['chco'] = orig_colors
+        if orig_colors:
+            self.options['chco'] = orig_colors
         width, height = self.options["chs"].split("x")
         alt = 'alt="%s" ' % escape(self.alt) if self.alt else ''
         s = mark_safe('<img src="%s" width="%s" height="%s" %s/>' % (escape(url), width, height, alt))
