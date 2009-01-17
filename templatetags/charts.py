@@ -352,7 +352,7 @@ def chart_auto_colors(color, item_label_list):
             value = hsv[1] * .2
         else:
             # otherwise, do a calculation
-            value = 1 - (.8/(len(item_label_list)-1)) * hsv[1]
+            value = (1 - (.8/(len(item_label_list)-1))) * hsv[1]
 
         # Convert back to rgb
         c_list = colorsys.hsv_to_rgb(hsv[0], value, hsv[2])
