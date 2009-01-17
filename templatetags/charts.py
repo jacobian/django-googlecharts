@@ -341,6 +341,7 @@ def chart_auto_colors(color, item_label_list):
 
     # For each label, compute a new color
     for index, color in enumerate(range(0, len(item_label_list))):
+
         if index == 0:
             # this is the first value, make it 100%
             value = hsv[1]
