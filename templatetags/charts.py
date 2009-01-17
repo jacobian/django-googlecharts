@@ -339,9 +339,6 @@ def chart_auto_colors(color, item_label_list):
 
     colors = []
 
-    # Set up our saturation multiplier
-    increment = 1 + len(item_label_list)
-
     # For each label, compute a new color
     for index, color in enumerate(range(0, len(item_label_list))):
         if index == 0:
@@ -352,7 +349,7 @@ def chart_auto_colors(color, item_label_list):
             value = hsv[1] * .2
         else:
             # otherwise, do a calculation
-            value = (.80 /(len(item_label_list) - 1)) * hsv[1]
+            value = 1 - (float(1)/(len(item_label_list))) * hsv[1]
 
         # Convert back to rgb
         c_list = colorsys.hsv_to_rgb(hsv[0], value, hsv[2])
