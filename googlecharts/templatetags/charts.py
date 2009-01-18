@@ -297,12 +297,16 @@ def chart_type(arg):
     return {"cht": types.get(arg, arg)}
 
 @option("chart-data-scale", multi=",")
-def chart_colors(*args):
+def chart_data_scale(*args):
     return {"chds": smart_join(",", *args)}
 
 @option("chart-colors", multi=",")
 def chart_colors(*args):
     return {"chco": smart_join(",", *args)}
+
+@option("chart-bar-colors", multi="|")
+def chart_bar_colors(*args):
+    return {"chco": smart_join("|", *args)}
     
 @option("chart-size")
 def chart_size(arg1, arg2=None):
