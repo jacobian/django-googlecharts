@@ -428,6 +428,38 @@ def chart_markers(dataset_index, iterable):
 
     return {"chm": smart_join("|", *flatten(markers))}
 
+
+label_types = {
+    'flag': 'f',
+    'text': 't',
+    'number': 'N',
+}
+
+@option("data-point-labels", multi="|")
+def data_point_labels(dataset_index, iterable):
+    """
+    Adds data labels as described here: http://code.google.com/apis/chart/labels.html#data_point_labels
+
+    You will need to provide an iterable yielding (label_type, label_contents, color, data_point, size, priority)
+
+    And keep in mind that flags and text labels require a very different `label_contents` than a set of numbers.
+    """
+    try:
+        it = iter(iterable)
+    except TypeError:
+        return {}
+
+    labels = []
+    for m in it:
+        try:
+            label_type, label_contents, color, data_point, size, priority = m
+        except ValueError:
+            continue
+        label = label_types.get(label_type, label_type)
+        labels.append(smart_join(",", label + label_contents, color, dataset_index, data_point, size, priority))
+
+    return {"chm": smart_join("|", *flatten(labels))}
+
 @option("chart-map-area")
 def chart_map_area(where):
     return {'chtm': where}
