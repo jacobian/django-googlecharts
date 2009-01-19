@@ -173,6 +173,16 @@ class Chart(object):
             
         return url
 
+
+    def charts(self):
+        res = []
+        for o in self.options['_final_color_map'].items():
+            res.append({ 'color': o[0],
+                          'label': o[1],
+                          'img': self.img(color_override=o[0])
+                       })
+        return res
+        
 #
 # {% chart-data %}
 #
@@ -324,7 +334,11 @@ def chart_colors(*args):
     chco = smart_join(",", *args)
     return {"chco": chco }
     
-
+#@option('chart-external')
+#def chart_external(chart_name, color, item_label_list):
+#    chart_color_data = chart_auto_colors(color, item_label_list) + { 'chart_name' : '_%s' % chart_name }
+#    return chart_color_data
+             
 @option("chart-auto-colors")
 def chart_auto_colors(color, item_label_list):
     '''Takes a starting color and a list of labels and creates the correct number of
