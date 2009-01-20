@@ -337,4 +337,17 @@ Google-o-meter chart, with data scaling
       {% chart-data-scale "0,10" %}
       {% chart-data "5" %}
     {% endchart %}
+    
+Map chart
+---------
+
+::
+
+    {% chart %}
+        {% chart-size "440x220" %}
+        {% chart-type "map" %}
+        {% chart-map-area "usa" %}
+        {% chart-map-data mapdata %}
+        {% chart-colors "ffffff" "ff0000" "0000ff" %}
+    {% endchart %}
 
