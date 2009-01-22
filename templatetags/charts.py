@@ -168,7 +168,10 @@ class Chart(object):
             for i, axis in enumerate(self.axes):
                 axis_sides.append(axis.side)
                 for opt in axis.options:
-                    axis_options.setdefault(opt, []).append(axis.options[opt] % i)
+                    try:
+                        axis_options.setdefault(opt, []).append(axis.options[opt] % i)
+                    except TypeError:
+                        pass
         
             # Turn the option lists into strings
             axis_sides = smart_join(",", *axis_sides)
@@ -352,11 +355,6 @@ def chart_colors(*args):
 def chart_bar_colors(*args):
     return {"chco": smart_join("|", *args)}
     
-#@option('chart-external')
-#def chart_external(chart_name, color, item_label_list):
-#    chart_color_data = chart_auto_colors(color, item_label_list) + { 'chart_name' : '_%s' % chart_name }
-#    return chart_color_data
-             
 @option("chart-auto-colors")
 def chart_auto_colors(color, item_label_list):
     '''Takes a starting color and a list of labels and creates the correct number of
@@ -587,7 +585,7 @@ def chart_map_data(data):
         "chld": smart_join("", *place_list),
         "_mapdata": value_list
     }
-        
+
 #
 # {% axis %}
 #
@@ -624,7 +622,12 @@ class AxisNode(template.Node):
     def __init__(self, side, nodelist=None):
         self.side = side
         self.nodelist = nodelist
-        
+        if not self.nodelist:
+            # Crazy horrible hack to stop deep runtime error
+            class n():
+                def get_nodes_by_type(x,y): return []
+            self.nodelist = n()
+
     def render(self, context):
         return ''
         
@@ -646,10 +649,10 @@ class AxisNode(template.Node):
         
 class NoAxisNode(AxisNode):
     def resolve(self, context):
-        axis = self.get_axis(context)
-        axis.options["chxs"] = "%s,000000,11,0,_"
-        axis.options["chxl"] = "%s:||"
-        return axis
+        a = self.get_axis(context)
+        a.options["chxs"] = "%s,000000,11,0,_"
+        a.options["chxl"] = "%s:||"
+        return a
         
 class Axis(object):
     def __init__(self, side):
@@ -681,7 +684,7 @@ alignments = {
 def axis_style(color, font_size=None, alignment=None):
     alignment = alignments.get(alignment, alignment)
     return {"chxs": smart_join(",", "%s", color, font_size, alignment)}
-    
+
 #
 # "Metadata" nodes
 #
