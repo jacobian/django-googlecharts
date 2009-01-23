@@ -13,7 +13,49 @@ from django.utils.safestring import mark_safe, SafeData
 register = template.Library()
 
 # Set this to the color for the inactive areas of an interactive chart
-chart_inactive_color = 'eeeeee'
+_chart_inactive_color = 'eeeeee'
+_chart_color = '336699'
+
+#
+# Helper functions
+#
+extended_separator = ","
+
+def encode_text(values):
+    return extended_separator.join(str(v) for v in values)
+
+def num2chars(n, value_range):
+    if n is not None:
+        return _num2chars[norm(n, value_range)]
+    else:
+        return '__'
+
+_encoding_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-."
+_num2chars = [a+b for a in _encoding_chars for b in _encoding_chars]
+
+def encode_extended(values, value_range):
+    """Encode data using Google's "extended" encoding for the most granularity."""
+    return "".join(num2chars(v, value_range) for v in values)
+
+@register.simple_tag
+def sparkline(data, size="100x30", color=_chart_color):
+    maxvalue = max(data)
+    minvalue = min(data)
+    datarange = (minvalue, maxvalue)
+    encoded_data = encode_extended(data,datarange)
+
+    return '<img src="http://chart.apis.google.com/chart?\
+cht=lc&\
+chs=100x30&\
+chd=e:%s&\
+chco=%s&\
+chls=1,1,0&\
+chm=o,990000,0,%s,4&\
+chxt=r,x,y&\
+chxs=0,990000,11,0,_|1,990000,1,0,_|2,990000,1,0,_&\
+chxl=0:|%s|1:||2:||&\
+chxp=0,%s\
+    ">' % (encoded_data, color, len(data), data[-1], 100*(float(data[-1])/(maxvalue-minvalue)))
 
 #
 # {% chart %}
@@ -118,7 +160,7 @@ class Chart(object):
                 if c == color_override:
                     c = orig_colors.split(',')[0]
                 else:
-                    c = chart_inactive_color
+                    c = _chart_inactive_color
                 final_color.append(c)
             self.options['chco'] = ','.join(final_color)
         url = self.url()
@@ -319,13 +361,11 @@ def chart_type(arg):
         * 'pie-3d'
         * 'venn'
         * 'scatter'
-        * 'sparkline'
         * 'map'
         
     """
     types = {
         'line':             'lc',
-        'sparkline':        'lc',
         'xy':               'lxy',
         'line-xy':          'lxy',
         'bar':              'bhg',
@@ -707,27 +747,6 @@ def chart_data_range(chart, lower=None, upper=None):
 def chart_alt(chart, alt=None):
     chart.alt = alt
 
-#
-# Helper functions
-#
-extended_separator = ","
-
-def encode_text(values):
-    return extended_separator.join(str(v) for v in values)
-
-def encode_extended(values, value_range):
-    """Encode data using Google's "extended" encoding for the most granularity."""
-    return "".join(num2chars(v, value_range) for v in values)
-
-_encoding_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-."
-_num2chars = [a+b for a in _encoding_chars for b in _encoding_chars]
-
-def num2chars(n, value_range):
-    if n is not None:
-        return _num2chars[norm(n, value_range)]
-    else:
-        return '__'
-    
 def norm(n, value_range):
     minvalue, maxvalue = value_range
     if minvalue >= 0:
