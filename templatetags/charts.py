@@ -421,16 +421,22 @@ def chart_auto_colors(color, item_label_list):
         elif index == len(item_label_list) - 1:
             #this is the last value, make it 20%
             s_value = hsv[1] * .2
-            v_value = 1 - hsv[2] * .2
+            v_value = hsv[2] * 1.8
         else:
             # otherwise, do a calculation
-            s_value = (1 - (.8/(len(item_label_list)-1))) * hsv[1]
-            v_value = 1 - (1 - (.8/(len(item_label_list)-1))) * hsv[2]
+            s_value = hsv[1] * (.8/(len(item_label_list)-1))
+            v_value = hsv[2] * (1 + (.8/(len(item_label_list)-1)))
+
+        if s_value >= 1:
+            s_value = hsv[1]
+        if v_value >= 1:
+            v_value = hsv[2]
 
         # Convert back to rgb
         c_list = colorsys.hsv_to_rgb(hsv[0], s_value, v_value)
 
-        # Turn a list of rgb values from 0 to 1 back to a value from 0 to 255, 
+
+        # Turn a list of rgb values from 0 to 1 back to a value from 0 to 255,
         # and then to hex
         c_converted = ([ str(hex(int(c * 255)))[2:] for c in c_list])
 
