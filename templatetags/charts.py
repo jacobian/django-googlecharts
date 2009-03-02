@@ -171,7 +171,7 @@ class Chart(object):
             alt = 'alt="%s" ' % escape(self.alt)
         else:
             alt = ''
-        s = mark_safe('<img src="%s" width="%s" height="%s" %s/>' % (escape(url), width, height, alt))
+        s = mark_safe('<img src="%s" width="%s" height="%s" %s>' % (escape(url), width, height, alt))
 
         return s
 

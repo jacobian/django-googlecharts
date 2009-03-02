@@ -27,7 +27,7 @@ Line chart, legend, fill, colors, saving as a variable
     {% chart-fill "EEEEEE" %}
     {% chart-legend "Sweet" %}
   {% endchart %}
-  <img src="{{ c.url }}" width="300" height="200" />
+  <img src="{{ c.url }}" width="300" height="200">
 
 Titles, multiple colors, background
 -----------------------------------
