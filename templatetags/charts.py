@@ -227,11 +227,14 @@ class Chart(object):
 
     def charts(self):
         res = []
+        count = 1
         for o in self.options['_final_color_map'].items():
-            res.append({ 'color': o[0],
+            res.append({  'id': count,
+                          'color': o[0],
                           'label': o[1],
                           'img': self.img(color_override=o[0])
                        })
+            count += 1
         return res
         
 #
