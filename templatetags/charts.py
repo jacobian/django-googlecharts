@@ -55,7 +55,7 @@ chxt=r,x,y&\
 chxs=0,990000,11,0,_|1,990000,1,0,_|2,990000,1,0,_&\
 chxl=0:|%s|1:||2:||&\
 chxp=0,%s\
-    ">' % (encoded_data, color, len(data), data[-1], 100*(float(data[-1])/(maxvalue-minvalue)))
+    " alt="" />' % (encoded_data, color, len(data), data[-1], 100*(float(data[-1])/(maxvalue-minvalue)))
 
 #
 # {% chart %}
@@ -167,11 +167,7 @@ class Chart(object):
         if orig_colors:
             self.options['chco'] = orig_colors
         width, height = self.options["chs"].split("x")
-        if self.alt:
-            alt = 'alt="%s" ' % escape(self.alt)
-        else:
-            alt = ''
-        s = mark_safe('<img src="%s" width="%s" height="%s" %s>' % (escape(url), width, height, alt))
+        s = mark_safe('<img src="%s" width="%s" height="%s" alt="%s" />' % (escape(url), width, height, escape(alt)))
 
         return s
 
