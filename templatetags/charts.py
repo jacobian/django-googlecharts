@@ -167,7 +167,11 @@ class Chart(object):
         if orig_colors:
             self.options['chco'] = orig_colors
         width, height = self.options["chs"].split("x")
-        s = mark_safe('<img src="%s" width="%s" height="%s" alt="%s" />' % (escape(url), width, height, escape(alt)))
+        if self.alt:
+            alt = '%s' % escape(self.alt)
+        else:
+            alt = ''
+        s = mark_safe('<img src="%s" width="%s" height="%s" alt="%s" />' % (escape(url), width, height, alt))
 
         return s
 
