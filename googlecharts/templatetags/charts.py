@@ -175,8 +175,11 @@ class ChartDataNode(template.Node):
             if isinstance(data, basestring):
                 data = filter(None, map(safefloat, data.split(",")))
             else:
-                data = filter(None, map(safefloat, data))
-                
+                # I don't understand why you would remove zero values, as this does?
+                # I'm going to comment it out and use my own version
+                # data = filter(None, map(safefloat, data))
+                data = map(safefloat, data)
+
             resolved.append(data)
             
         return resolved
@@ -279,6 +282,7 @@ def chart_type(arg):
     """
     types = {
         'line':             'lc',
+        'sparkline':        'ls',
         'xy':               'lxy',
         'line-xy':          'lxy',
         'bar':              'bhg',
@@ -412,7 +416,11 @@ marker_types = {
 def chart_marker(marker, color, dataset_index, data_point, size):
     marker = marker_types.get(marker, marker)
     return {"chm": smart_join(",", marker, color, dataset_index, data_point, size)}
-    
+
+@option("line-bar-combo", multi="|")
+def line_bar_combo(dataset_index, color, size):
+    return {"chm": smart_join(",", 'D', color, dataset_index, 0, size, 1)}
+
 @option("chart-markers", multi="|")
 def chart_markers(dataset_index, iterable):
     """Provide an iterable yielding (type, color, point, size)"""
@@ -573,7 +581,12 @@ alignments = {
 def axis_style(color, font_size=None, alignment=None):
     alignment = alignments.get(alignment, alignment)
     return {"chxs": smart_join(",", "%s", color, font_size, alignment)}
-    
+
+@option("axis-tick-length", nodeclass=AxisOptionNode)
+def axis_range(length):
+    return {"chxtc": "%%s,%s" % (length)}
+
+
 #
 # "Metadata" nodes
 #
