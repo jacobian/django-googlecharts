@@ -113,6 +113,24 @@ Data scaling to avoid truncation
     {% chart-colors "CC0000" "0000CC" %}
   {% endchart %}
 
+
+Fake grid lines drawn on top of data
+------------------------------------
+
+::
+  
+  {% chart %}
+    {% chart-size "300x200" %}
+    {% chart-type "column" %}
+    {% chart-data "0.001,2,6,14,18,0.001" %}
+    {% chart-data-scale "0,20" %}
+    {% chart-colors "CC0000" %}
+    {% chart-grid-lines %}
+    {% chart-grid-lines-data grid_lines_data %}
+    {% chart-grid-lines-style grid_lines_style %}
+  {% endchart %}
+
+
 Scatter chart
 -------------
 

@@ -20,6 +20,8 @@ def render_examples():
         'data4' : [sin(i/5.0)*5 for i in range(100)],
         'venn' : [100, 80, 60, 30, 30, 30, 10],
         'mapdata': {'KS': 0, 'CA': 100, "MN": 50},
+        'grid_lines_data': [(6,5), (6,10), (6,15)],
+        'grid_lines_style': [('FFFFFF','1','1'), ('FFFFFF','2','1'), ('FFFFFF','3','1'),]
     }
     examples = []
     source = Path(__file__).parent.child("examples.txt").read_file()
