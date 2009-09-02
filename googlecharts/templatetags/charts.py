@@ -177,7 +177,6 @@ def chart_grid_lines_data(parser, token):
 	bits = iter(token.split_contents())
 	name = bits.next()
 	data_obj = map(parser.compile_filter, bits)
-	print data_obj
 	return ChartDataNode(data_obj, "chart-grid-lines-data")
 
 
@@ -211,15 +210,12 @@ class ChartDataNode(template.Node):
 		# If the data is provided by the {% chart-grid-lines-data %} tag ...
 		elif self.type == 'chart-grid-lines-data':
 			for data in self.datasets:
-				print data
 				data = data.resolve(context)
-				print data
 				
 				# Since this variable can contain multiple lists,
 				# We'll add an extra loop that doesn't exist above.
 				for series in data:
 					
-					print series
 					# Split the tuple
 					value_count, value = series
 					# Extend the series to the length of the count
