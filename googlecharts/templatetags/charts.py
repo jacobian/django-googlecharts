@@ -353,6 +353,12 @@ def chart_title(title, fontsize=None, color="000000"):
 def chart_legend(*labels):
     return {"chdl": smart_join("|", *flatten(labels))}
     
+
+@option("chart-legend-position")
+def chart_legend_position(position):
+    return {"chdlp": position}
+
+
 @option("chart-labels", multi="|")
 def chart_labels(*labels):
     return {"chl": smart_join("|", *flatten(labels))}
