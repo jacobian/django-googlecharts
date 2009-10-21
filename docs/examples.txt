@@ -343,6 +343,18 @@ Custom title sizes, colors
       {% chart-title "Pie!" 18 "cc0000" %}
     {% endchart %}
 
+Custom pie orientation
+--------------------------
+
+::
+
+    {% chart %}
+      {% chart-data data1 %}
+      {% chart-size "300x200" %}
+      {% chart-type "pie" %}
+      {% chart-pie-orientation "4.7" %}
+    {% endchart %}
+
 Google-o-meter chart, with data scaling
 ---------------------------------------
 
