@@ -411,7 +411,11 @@ def chart_title(title, fontsize=None, color="000000"):
 @option("chart-legend", multi="|")
 def chart_legend(*labels):
 	return {"chdl": smart_join("|", *flatten(labels))}
-	
+
+@option("chart-pie-orientation")
+def chart_pie_orientation(radians):
+	return {"chp": radians}
+
 @option("chart-labels", multi="|")
 def chart_labels(*labels):
 	return {"chl": smart_join("|", *flatten(labels))}
