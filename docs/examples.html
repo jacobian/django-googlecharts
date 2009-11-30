@@ -38,7 +38,7 @@
 {% endchart %}
 &lt;img src=&quot;{{ c.url }}&quot; width=&quot;300&quot; height=&quot;200&quot; /&gt;</pre></td>
           <td>
-<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000&amp;chf=c,s,EEEEEE&amp;chdl=Sweet&amp;chd=e:ALAtBmC1EcGYIsLWOXRuVdZhd9ivn4tYzO5b.." width="300" height="200" /></td>
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000&amp;chf=c,s,EEEEEE&amp;chdl=Sweet&amp;chd=e:AAALAtBmC1EcGYIsLWOXRuVdZhd9ivn4tYzO5b.." width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -52,7 +52,7 @@
   {% chart-colors &quot;CC0000&quot; &quot;00CC00&quot; %}
   {% chart-background &quot;EEEEEE&quot; %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?chtt=Hello,+World%21&amp;cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chf=bg,s,EEEEEE&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?chtt=Hello,+World%21&amp;cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chf=bg,s,EEEEEE&amp;chd=e:AAAKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -129,6 +129,22 @@
         </tr>
       
         <tr>
+          <th colspan="2">Fake grid lines drawn on top of data</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;column&quot; %}
+  {% chart-data &quot;0.001,2,6,14,18,0.001&quot; %}
+  {% chart-data-scale &quot;0,20&quot; %}
+  {% chart-colors &quot;CC0000&quot; %}
+  {% chart-grid-lines %}
+  {% chart-grid-lines-data grid_lines_data %}
+  {% chart-grid-lines-style grid_lines_style %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=bvg&amp;chds=0,20&amp;chco=CC0000&amp;chm=D,FFFFFF,1,0,1,1|D,FFFFFF,2,0,1,1|D,FFFFFF,3,0,1,1&amp;chd=t1:0.001,2.0,6.0,14.0,18.0,0.001|5.0,5.0,5.0,5.0,5.0,5.0|10.0,10.0,10.0,10.0,10.0,10.0|15.0,15.0,15.0,15.0,15.0,15.0" width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
           <th colspan="2">Scatter chart</th>
         <tr>
           <td><pre>{% chart %}
@@ -137,7 +153,7 @@
   {% chart-size &quot;300x200&quot; %}
   {% chart-type &quot;scatter&quot; %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=s&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=s&amp;chd=e:AAAKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -152,7 +168,7 @@
   {% chart-line-style 1 1 2 %}
   {% chart-grid 15 15 1 1 %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chls=3,6,3|1,1,2&amp;chg=15,15,1,1&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chls=3,6,3|1,1,2&amp;chg=15,15,1,1&amp;chd=e:AAAKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -170,7 +186,7 @@
 {% endchart %}</pre></td>
           <td>
 
-<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chm=R,E5ECF9,0,.75,.25|B,76A4FB,0,0,0&amp;chd=e:ALAtBmC1EcGYIsLWOXRuVdZhd9ivn4tYzO5b.." width="300" height="200" /></td>
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chm=R,E5ECF9,0,.75,.25|B,76A4FB,0,0,0&amp;chd=e:AAALAtBmC1EcGYIsLWOXRuVdZhd9ivn4tYzO5b.." width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -184,7 +200,7 @@
   {% chart-marker &quot;circle&quot; &quot;cccc0077&quot; 1 4 90 %}
   {% chart-marker &quot;x&quot; &quot;0000CC&quot; 0 9.3 20 %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chm=o,cccc0077,1,4,90|x,0000CC,0,9.3,20&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chco=CC0000,00CC00&amp;chm=o,cccc0077,1,4,90|x,0000CC,0,9.3,20&amp;chd=e:AAAKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -193,7 +209,7 @@
           <td><pre>{% chart %}
   {% chart-data data2 data3 %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?chs=200x200&amp;cht=lc&amp;chd=e:AKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="200" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=200x200&amp;cht=lc&amp;chd=e:AAAKApBcCkEAFxH2KPM9QATXXCbCfXj.o9uPz15w,..5wz1uPo9j.fXbCXCTXQAM9KPH2FxEACkBcApAK" width="200" height="200" /></td>
         </tr>
       
         <tr>
@@ -212,7 +228,7 @@
     {% axis-labels &quot;Jan&quot; &quot;Feb&quot; &quot;Mar&quot; &quot;Apr&quot; %}
   {% endaxis %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chm=R,E5ECF9,0,.75,.25|B,76A4FB,0,0,0&amp;chd=e:..5bzOtYn4ivd9ZhVdRuOXLWIsGYEcC1BmAtAL&amp;chxt=y,x&amp;chxr=0,0,100&amp;chxl=1:|Jan|Feb|Mar|Apr" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=300x200&amp;chm=R,E5ECF9,0,.75,.25|B,76A4FB,0,0,0&amp;chd=e:..5bzOtYn4ivd9ZhVdRuOXLWIsGYEcC1BmAtALAA&amp;chxt=y,x&amp;chxr=0,0,100&amp;chxl=1:|Jan|Feb|Mar|Apr" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -260,7 +276,7 @@
     {% axis-labels 5 0 -5 %}
   {% endaxis %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chm=r,000000,0,.499,.501&amp;chd=e:mXsdyE296791.i...K9G541nwgqukheIX1R2MbHyEHBjANAIBUDvHRLzRIXEdWjvp-v01B5Z8w--.9.q-G7W3gyutMnIgzabUROmJnFhCeAnAAArClFrJ0O1UiathFnatcy83s7f-N.t.8-68o5O00vkptjddEWyQ4LlHGDmBPAGAPBpEQH-MpSGYGeakzq.wv116C&amp;chxt=x,y&amp;chxs=0,000000,11,0,_&amp;chxl=0:|||1:|5|0|-5" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chm=r,000000,0,.499,.501&amp;chd=e:gAmXsdyE296791.i...K9G541nwgqukheIX1R2MbHyEHBjANAIBUDvHRLzRIXEdWjvp-v01B5Z8w--.9.q-G7W3gyutMnIgzabUROmJnFhCeAnAAArClFrJ0O1UiathFnatcy83s7f-N.t.8-68o5O00vkptjddEWyQ4LlHGDmBPAGAPBpEQH-MpSGYGeakzq.wv116C&amp;chxt=x,y&amp;chxs=0,000000,11,0,_&amp;chxl=0:|||1:|5|0|-5" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -295,7 +311,7 @@
     {% axis-labels 10 0 -10 %}
   {% endaxis %}
 {% endchart %}</pre></td>
-          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=00cc00&amp;chls=4&amp;chm=r,000000,0,.499,.501&amp;chd=e:jLmOpCretdu6vwv.vkuis7qzoPlWiQfEb6Y6WNT5SDQxQGQEQqR3ToV5Ykbheqh3k-n5qgssuYvev-v0vDtqrvpWmljkgZdNaIXTUzSwRPQTQAQVRSS1U6XaaRdWgijtmuper1tvvGv2v9vcuUsmqZnxk2huehbZYcVyTjRzQnQDQHQ0SIT.WUZDcDfNiZlfoXq6tA&amp;chxt=x,y&amp;chxs=0,000000,11,0,_&amp;chxl=0:|||1:|10|0|-10" width="300" height="200" /></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=00cc00&amp;chls=4&amp;chm=r,000000,0,.499,.501&amp;chd=e:gAjLmOpCretdu6vwv.vkuis7qzoPlWiQfEb6Y6WNT5SDQxQGQEQqR3ToV5Ykbheqh3k-n5qgssuYvev-v0vDtqrvpWmljkgZdNaIXTUzSwRPQTQAQVRSS1U6XaaRdWgijtmuper1tvvGv2v9vcuUsmqZnxk2huehbZYcVyTjRzQnQDQHQ0SIT.WUZDcDfNiZlfoXq6tA&amp;chxt=x,y&amp;chxs=0,000000,11,0,_&amp;chxl=0:|||1:|10|0|-10" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -317,7 +333,7 @@
 {% endchart %}</pre></td>
           <td>
 
-<img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=0000cc&amp;chls=2,2,2&amp;chm=r,000000,0,.499,.501&amp;chd=e:6C11wvq.kzeaYGSGMpH-EQBpAPAGBPDmHGLlQ4WydEjdptvk005O8o-6.8.t-N7f3sy8tcnahFatUiO1J0FrClArAAAnCeFhJnOmURabgznItMyu3g7W-G.q.9--8w5Z1Bv0p-jvdWXERILzHRDvBUAIANBjEHHyMbR2X1eIkhquwg1n549G.K...i916729yEsdmX&amp;chxt=x&amp;chxs=0,000000,11,0,_&amp;chxl=0:||" width="300" height="200" /></td>
+<img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=lc&amp;chco=0000cc&amp;chls=2,2,2&amp;chm=r,000000,0,.499,.501&amp;chd=e:6C11wvq.kzeaYGSGMpH-EQBpAPAGBPDmHGLlQ4WydEjdptvk005O8o-6.8.t-N7f3sy8tcnahFatUiO1J0FrClArAAAnCeFhJnOmURabgznItMyu3g7W-G.q.9--8w5Z1Bv0p-jvdWXERILzHRDvBUAIANBjEHHyMbR2X1eIkhquwg1n549G.K...i916729yEsdmXgA&amp;chxt=x&amp;chxs=0,000000,11,0,_&amp;chxl=0:||" width="300" height="200" /></td>
         </tr>
       
         <tr>
@@ -342,6 +358,18 @@
   {% chart-title &quot;Pie!&quot; 18 &quot;cc0000&quot; %}
 {% endchart %}</pre></td>
           <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chts=cc0000,18&amp;chtt=Pie%21&amp;chd=e:VVqq.." width="300" height="200" /></td>
+        </tr>
+      
+        <tr>
+          <th colspan="2">Custom pie orientation</th>
+        <tr>
+          <td><pre>{% chart %}
+  {% chart-data data1 %}
+  {% chart-size &quot;300x200&quot; %}
+  {% chart-type &quot;pie&quot; %}
+  {% chart-pie-orientation &quot;4.7&quot; %}
+{% endchart %}</pre></td>
+          <td><img src="http://chart.apis.google.com/chart?chs=300x200&amp;cht=p&amp;chp=4.7&amp;chd=e:VVqq.." width="300" height="200" /></td>
         </tr>
       
         <tr>
