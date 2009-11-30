@@ -9,7 +9,7 @@ settings.configure(INSTALLED_APPS=["googlecharts"])
 from math import sin
 from django import template
 from docutils.core import publish_parts
-from lxml import etree
+from xml.etree import ElementTree as etree
 from unipath import FSPath as Path
 
 def render_examples():
@@ -27,7 +27,7 @@ def render_examples():
     source = Path(__file__).parent.child("examples.txt").read_file()
     published = publish_parts(source, writer_name="xml", settings_overrides={"xml_declaration": False})
     tree = etree.fromstring(published["whole"])
-    for section in tree.xpath("//section"):
+    for section in tree.findall("section"):
         title = section.find("title").text
         chart = section.find("literal_block").text
         t = template.Template("{% load charts %}" + chart)
