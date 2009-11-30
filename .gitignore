@@ -2,3 +2,4 @@
 /*.egg
 /distribute-*
 /*.egg-info
+/dist/

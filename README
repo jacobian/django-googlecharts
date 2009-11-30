@@ -6,7 +6,7 @@ This is a suite of template tags to assist in generating charts using Google's
 for that.
 
 Currently the library is long on code, and short on testing and documentation.
-It's only been tested against Django trunk (r7135) and Python 2.5.
+It's only been tested against Django 1.1 and Python 2.5.
 
 For example usage, see ``docs/examples.html``.
 
