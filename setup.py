@@ -1,45 +1,15 @@
-import os
- 
-from distutils.core import setup
- 
-def fullsplit(path, result=None):
-    """
-    Split a pathname into components (the opposite of os.path.join) in a
-    platform-neutral way.
-    """
-    if result is None:
-        result = []
-    head, tail = os.path.split(path)
-    if head == "":
-        return [tail] + result
-    if head == path:
-        return result
-    return fullsplit(head, [tail] + result)
- 
-package_dir = "googlecharts"
- 
-packages = []
-for dirpath, dirnames, filenames in os.walk(package_dir):
-    # ignore dirnames that start with '.'
-    for i, dirname in enumerate(dirnames):
-        if dirname.startswith("."):
-            del dirnames[i]
-    if "__init__.py" in filenames:
-        packages.append(".".join(fullsplit(dirpath)))
- 
+from distribute_setup import use_setuptools; use_setuptools()
+from setuptools import setup, find_packages
+
 setup(
     name = 'django-googlecharts',
-    version = '0.1.0',
-    description = 'django-googlecharts provides template tags to easily be able to insert '
-                  'charts using the google api in your pages.',
-    keywords = 'django apps',
-    license = 'see License',
+    version = '1.0a1',
+    description = 'Django template tags to generate charts using the Google chart API.',
+    keywords = 'django charts templates',
+    license = 'BSD',
     author = 'Jacob Kaplan-Moss',
     author_email = 'jacob@jacobian.org',
-    maintainer = 'Rohit Sankaran',
-    maintainer_email = 'rohit@lincolnloop.com',
-    url = 'http://github.com/roadhead/django-googlechart/',
-    dependency_links = [],
+    url = 'http://github.com/jacobian/django-googlecharts',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Plugins',
@@ -49,6 +19,7 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    packages = packages,
-    include_package_data = True,
+    packages = find_packages(),
+    install_requires = ['Django>=1.0'],
+    test_suite = "googlecharts.runtests.runtests",
 )
