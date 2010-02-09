@@ -1,6 +1,5 @@
 import sys
 import inspect
-import functools
 import colorsys
 
 from django import template
@@ -892,9 +891,12 @@ from urllib import quote_plus
 
 def urlencode(query, safe="/:,|"):
     '''Omit any options that begin with _; for internal use'''
-    q = functools.partial(quote_plus, safe=safe)
-    query = query.items() if hasattr(query, "items") else query
-    qlist = ["%s=%s" % (q(k), q(v)) for (k,v) in query if not k.startswith('_')]
+
+    if hasattr(query, "items"):
+        query = query.items()
+
+    qlist = ["%s=%s" % (quote_plus(k, safe=safe), quote_plus(v, safe=safe))
+             for (k,v) in query if not k.startswith('_')]
     return "&".join(qlist)
     
 def flatten(iterator):
