@@ -868,7 +868,7 @@ def num2chars(n, value_range):
     
 def norm(n, value_range):
     minvalue, maxvalue = value_range
-    if minvalue == maxvalue:
+    if minvalue == maxvalue == 0:
         return 0
     elif minvalue >= 0:
         return int(round(float(n) / maxvalue * 4095, 0))
