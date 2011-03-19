@@ -2,6 +2,8 @@ import sys
 import inspect
 import colorsys
 
+from itertools import chain
+
 from django import template
 from django.conf import settings
 from django.utils.datastructures import SortedDict
@@ -102,6 +104,8 @@ class ChartNode(template.Node):
         for node in self.nodelist:
             if isinstance(node, ChartDataNode):
                 c.datasets.extend(node.resolve(context))
+            elif isinstance(node, ChartHiddenDataNode):
+                c.hidden_datasets.extend(node.resolve(context))
             elif isinstance(node, ChartOptionNode):
                 node.update_chart(c, context)
             elif isinstance(node, AxisNode):
@@ -139,6 +143,7 @@ class Chart(object):
         # or writing unit tests.
         self.options = SortedDict()
         self.datasets = []
+        self.hidden_datasets = []
         self.axes = []
         self.datarange = None
         self.alt = None
@@ -147,6 +152,7 @@ class Chart(object):
         clone = self.__class__()
         clone.options = self.options.copy()
         clone.datasets = self.datasets[:]
+        clone.hidden_datasets = self.hidden_datasets[:]
         clone.axes = self.axes[:]
         return clone
 
@@ -180,19 +186,19 @@ class Chart(object):
 
         # Figure out the chart's data range
         if not self.datarange:
-            maxvalue = max(max(d) for d in self.datasets if d)
-            minvalue = min(min(d) for d in self.datasets if d)
+            maxvalue = max(max(d) for d in chain(self.datasets, self.hidden_datasets) if d)
+            minvalue = min(min(d) for d in chain(self.datasets, self.hidden_datasets) if d)
             self.datarange = (minvalue, maxvalue)
         
         # Encode data
         if "chds" in self.options or self.options.get('cht', None) == 'gom': 
             # text encoding if scaling provided, or for google-o-meter type
-            data = "|".join(encode_text(d) for d in self.datasets)
-            encoded_data = "t:%s" % data
+            data = "|".join(encode_text(d) for d in chain(self.datasets, self.hidden_datasets))
+            encoded_data = "t%d:%s" % (len(self.datasets), data)
         else: 
             # extended encoding otherwise
-            data = extended_separator.join(encode_extended(d, self.datarange) for d in self.datasets)
-            encoded_data = "e:%s" % data
+            data = extended_separator.join(encode_extended(d, self.datarange) for d in chain(self.datasets, self.hidden_datasets))
+            encoded_data = "e%d:%s" % (len(self.datasets), data)
         
         # Update defaults
         for k in self.defaults:
@@ -246,6 +252,14 @@ def chart_data(parser, token):
     name = bits.next()
     datasets = map(parser.compile_filter, bits)
     return ChartDataNode(datasets, "chart-data")
+
+
+@register.tag(name="chart-data-hidden")
+def chart_data_hidden(parser, token):
+    bits = iter(token.split_contents())
+    name = bits.next()
+    datasets = map(parser.compile_filter, bits)
+    return ChartHiddenDataNode(datasets)
 
 
 @register.tag("chart-grid-lines-data")
@@ -320,6 +334,33 @@ class ChartDataNode(template.Node):
 
         return resolved
         
+    def render(self, context):
+        return ""
+
+
+class ChartHiddenDataNode(template.Node):
+    def __init__(self, datasets):
+        self.datasets = datasets
+
+    def resolve(self, context):
+        resolved = []
+
+        for data in self.datasets:
+            try:
+                data = data.resolve(context)
+            except template.VariableDoesNotExist:
+                data = []
+
+            # XXX need different ways of representing pre-encoded data, data with
+            # different separators, etc.
+            if isinstance(data, basestring):
+                data = filter(None, map(safefloat, data.split(",")))
+            else:
+                data = map(safefloat, data)
+            resolved.append(data)
+
+        return resolved
+
     def render(self, context):
         return ""
 
